@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema({
   },
   phoneNumber: {
     type: String,
-    required: true,
+    required: false,
   },
   roleId: {
     type: mongoose.Schema.Types.ObjectId,

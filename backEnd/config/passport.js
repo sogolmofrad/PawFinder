@@ -1,6 +1,7 @@
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import User from '../models/User.js';
+import { getRoleIdByName } from '../utils/roleUtils.js';
 
 const initializePassport = () => {
   passport.use(
@@ -15,10 +16,15 @@ const initializePassport = () => {
           let user = await User.findOne({ googleId: profile.id });
 
           if (!user) {
+            const roleId = await getRoleIdByName('user');
+            
             user = await User.create({
               googleId: profile.id,
-              name: profile.displayName,
+              fullName: profile.displayName,
               email: profile.emails[0].value,
+              userType: 'individual',
+              phoneNumber: '',
+              roleId: roleId,
             });
           }
 

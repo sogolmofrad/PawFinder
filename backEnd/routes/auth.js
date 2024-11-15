@@ -3,16 +3,10 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import passport from 'passport';
 import User from '../models/User.js';
-import Role from '../models/Role.js';
 import auth from '../middleware/auth.js';
+import { getRoleIdByName } from '../utils/roleUtils.js';
 
 const router = express.Router();
-
-async function getRoleIdByName(roleName) {
-  const role = await Role.findOne({ name: roleName });
-  if (!role) throw new Error(`Role ${roleName} not found`);
-  return role._id;
-}
 
 router.get('/google', passport.authenticate('google', {
   scope: ['profile', 'email']
@@ -34,8 +28,18 @@ router.get('/google/callback',
         secure: process.env.NODE_ENV === 'production',
       });
 
-      res.redirect('http://localhost:5173/home');
+      res.json({
+        success: true,
+        message: 'Google authentication successful',
+        user: {
+          id: req.user._id,
+          email: req.user.email,
+          fullName: req.user.fullName,
+          userType: req.user.userType
+        }
+      });
     } catch (error) {
+      console.error('Google callback error:', error);
       res.status(500).json({ 
         success: false, 
         message: 'Error during Google authentication' 

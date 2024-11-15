@@ -1,6 +1,4 @@
 import jwt from 'jsonwebtoken';
-import Role from '../models/Role.js';
-
 
 const auth = async (req, res, next) => {
     try {
