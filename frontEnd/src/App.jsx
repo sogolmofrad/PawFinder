@@ -18,12 +18,10 @@ function App() {
       <Routes>
         <Route element={<AppLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/dogs" element={<Dogs />}>
-            <Route path="/:id" element={<Dog />} />
-          </Route>
-          <Route path="/cats" element={<Cats />}>
-            <Route path="/:id" element={<Cat />} />
-          </Route>
+          <Route path="/dogs" element={<Dogs />} />
+          <Route path="/dogs/:id" element={<Dog />} />
+          <Route path="/cats" element={<Cats />} />
+          <Route path="/cats/:id" element={<Cat />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
